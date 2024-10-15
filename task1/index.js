@@ -2,9 +2,15 @@
 // f2: y = ln(2) - sum(((-1)^k * (2k-1)! * x^(2k))/(2^2k * (k!)^2), k, 1, n)
 
 const solve = () => {
-  let x = 0;
+  let x = 0, ans = "";
+  ans = ans + "┌──────┬────────┬─────────────┬─────────────┬─────────────┐\n";
+  ans = ans + "│ x    │ f1(x)  │   e=0.01    │  e=0.001    │  e=0.0001   │\n";
+  ans = ans + "│      │        ├────────┬────┼────────┬────┼────────┬────┤\n";
+  ans = ans + "│      │        │ f2(x)  │ N  │ f2(x)  │ N  │ f2(x)  │ N  │\n";
+  ans = ans + "├──────┼────────┼────────┼────┼────────┼────┼────────┼────┤\n";
+
   while (x < 0.83) {
-    console.log(`0 -- x=${x} -- f1=${Math.log(1 + Math.sqrt(1 + x * x))}`);
+    ans = ans + `│ ${x.toFixed(2)} │ ${Math.log(1 + Math.sqrt(1 + x * x)).toFixed(4)}`;
     let k = 1,
       cur1 = -1,
       cur22k = 4,
@@ -29,19 +35,25 @@ const solve = () => {
       sum = sum + (cur1 * cur2k1Fact * curx2k) / (cur22k * curFact * curFact);
 
       if ((!isE2Logged) && Math.abs(sum - prev) < 0.01) {
-        console.log(`eps=0.01 -- x=${x} -- sum=${Math.log(2) - sum} -- k=${k}`);
+        ans = ans + ` │ ${(Math.log(2) - sum).toFixed(4)} │ ${k < 10 ? k + " " : k}`;
         isE2Logged = true;
       }
       if ((!isE3Logged) && Math.abs(sum - prev) < 0.001) {
-        console.log(`eps=0.001 -- x=${x} -- sum=${Math.log(2) - sum} -- k=${k}`);
+        ans = ans + ` │ ${(Math.log(2) - sum).toFixed(4)} │ ${k < 10 ? k + " " : k}`;
         isE3Logged = true;
       }
     }
 
-    console.log(`eps=0.0001 -- x=${x} -- sum=${Math.log(2) - sum} -- k=${k}\n`);
+    ans = ans + ` │ ${(Math.log(2) - sum).toFixed(4)} │ ${k < 10 ? k + " " : k}`;
+    ans = ans + " │\n";
 
     x = Math.floor(x * 100 + 4) / 100;
+    ans = ans + "├──────┼────────┼────────┼────┼────────┼────┼────────┼────┤\n";
   }
+  ans = ans.slice(0, ans.length - 61);
+  ans = ans + "\n└──────┴────────┴────────┴────┴────────┴────┴────────┴────┘\n";
+
+  console.log(ans);
 }
 
 solve();
