@@ -4,6 +4,7 @@
 const solve = () => {
   let x = 0;
   while (x < 0.83) {
+    console.log(`0 -- x=${x} -- f1=${Math.log(1 + Math.sqrt(1 + x * x))}`);
     let k = 1,
       cur1 = -1,
       cur22k = 4,
@@ -28,16 +29,16 @@ const solve = () => {
       sum = sum + (cur1 * cur2k1Fact * curx2k) / (cur22k * curFact * curFact);
 
       if ((!isE2Logged) && Math.abs(sum - prev) < 0.01) {
-        console.log(`eps=0.01 -- x=${x} -- sum=${sum} -- k=${k}`);
+        console.log(`eps=0.01 -- x=${x} -- sum=${Math.log(2) - sum} -- k=${k}`);
         isE2Logged = true;
       }
       if ((!isE3Logged) && Math.abs(sum - prev) < 0.001) {
-        console.log(`eps=0.001 -- x=${x} -- sum=${sum} -- k=${k}`);
+        console.log(`eps=0.001 -- x=${x} -- sum=${Math.log(2) - sum} -- k=${k}`);
         isE3Logged = true;
       }
     }
 
-    console.log(`eps=0.0001 -- x=${x} -- sum=${sum} -- k=${k}\n`);
+    console.log(`eps=0.0001 -- x=${x} -- sum=${Math.log(2) - sum} -- k=${k}\n`);
 
     x = Math.floor(x * 100 + 4) / 100;
   }
